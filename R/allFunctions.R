@@ -123,7 +123,7 @@ buildAncDesCoordDF = function(df){
 #' @export
 #' @examples
 #' data(sbGeneal)
-#' v1="Essex"
+#' v1 <- "Essex"
 #' buildAncDesTotalDF(v1, sbGeneal)
 buildAncDesTotalDF = function(v1, geneal, mAnc=3, mDes=3){
   
@@ -153,7 +153,7 @@ buildAncDesTotalDF = function(v1, geneal, mAnc=3, mDes=3){
     })
     
     # This creates a unique color for the variety label of interest
-    cols = hcl(h=seq(0, 300, by=50), c=80, l=55, fixup=TRUE)
+    cols = grDevices::hcl(h=seq(0, 300, by=50), c=80, l=55, fixup=TRUE)
     temp2$color = "#000000"
     
     # The number 7 was selected as it is the average working memory maximum
@@ -257,7 +257,7 @@ buildDesList = function(v1, geneal, gen=0){
 #' @param binVector the number of bins between 1 and length(binVector) (default is 12). For more information on choosing binVector size, please visit the ggenealogy vignette.
 #' @seealso \code{\link{dfToIG}} for information on producing ig from the genealogy
 #' @seealso \url{http://www.r-project.org} for iGraph information
-buildEdgeTotalDF = function(geneal, ig, binVector=1:12){
+buildEdgeTotalDF = function(geneal, ig, binVector = 1:12){
   
   if(class(ig)!="igraph"){
     stop("ig must be an igraph object")
@@ -313,7 +313,7 @@ buildEdgeTotalDF = function(geneal, ig, binVector=1:12){
 #' @param binVector vector of numbers between 1 and length(binVector), each repeated exactly once
 #' @seealso \url{http://www.r-project.org} for iGraph information
 #' @seealso \code{\link{getPath}} for information on input path building
-buildMinusPathDF = function(path, geneal, ig, binVector=1:12){
+buildMinusPathDF = function(path, geneal, ig, binVector = 1:12){
   
   if(class(ig)!="igraph"){
     stop("ig must be an igraph object")
@@ -419,7 +419,7 @@ buildPathDF = function(path){
 #' @seealso \url{http://www.r-project.org} for iGraph information
 #' @seealso \url{http://www.r-project.org} for iGraph information
 #' @seealso \code{\link{getPath}} for information on input path building
-buildPlotTotalDF = function(path, geneal, ig, binVector=1:12){
+buildPlotTotalDF = function(path, geneal, ig, binVector = 1:12){
   if(class(ig)!="igraph"){
     stop("ig must be an igraph object")
   }
@@ -470,7 +470,7 @@ buildPlotTotalDF = function(path, geneal, ig, binVector=1:12){
 #' @param binVector vector of numbers between 1 and length(binVector), each repeated exactly once
 #' This vector will determine the order that increasing y index positions are repeatedly assigned to. For instance, if binVector = c(1,4,7,10,2,5,8,11,3,6,9,12), then y-axis position one will be assigned to a variety in the first bin of years, y-axis position two will be assigned to a variety in the fourth bin of years, ...., and y-axis position thirteen will be assigned again to a variety in the first bin of years. This vector can help minimize overlap of the labelling of varieties, without regard to how the layout affects the edges between varieties, as those edges will be colored faintly.
 #' @seealso \url{http://www.r-project.org} for iGraph information
-buildSpreadTotalDF = function(geneal, ig, binVector=1:12){
+buildSpreadTotalDF = function(geneal, ig, binVector = 1:12){
   if(class(ig)!="igraph"){
     stop("ig must be an igraph object.")
   }
@@ -519,7 +519,7 @@ buildSpreadTotalDF = function(geneal, ig, binVector=1:12){
 #' getParent("Essex", sbGeneal)
 #' getAncestors("Essex", sbGeneal, 1)
 #' getAncestors("Essex", sbGeneal, 5)
-getAncestors = function(v1, geneal, gen=3){
+getAncestors = function(v1, geneal, gen = 3){
   id.offset <- NULL
   aDF = buildAncDesCoordDF(nodeToDF(buildAncList(v1, geneal)))
   subDF = aDF[aDF$gen <= gen & aDF$gen != 0,]
@@ -535,9 +535,8 @@ getAncestors = function(v1, geneal, gen=3){
 #' whole graph is connected, number of components, average path length, graph diameter, etc.)
 #' @param ig the graph representation of the data genealogy (in igraph format)
 #' @examples
-#' 
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
+#' ig <- dfToIG(sbGeneal)
 #' getBasicStatistics(ig)
 #' @export
 getBasicStatistics = function(ig){
@@ -581,11 +580,14 @@ getBasicStatistics = function(ig){
 #' @export
 #' @examples
 #' data(sbGeneal)
-#' getChild("Essex",sbGeneal)
+#' getChild("Essex", sbGeneal)
 #' getDescendants("Essex", sbGeneal, 1)
 #' getDescendants("Essex", sbGeneal, 3)
 getDescendants = function(v1, geneal, gen=3){
   id.offset <- NULL
+  if (is.null(buildDesList(v1, geneal))){
+    return(data.frame())
+  }
   dDF = buildAncDesCoordDF(nodeToDF(buildDesList(v1, geneal)))
   subDF = dDF[dDF$gen <= gen & dDF$gen != 0,]
   keep = c("label","gen")
@@ -602,7 +604,7 @@ getDescendants = function(v1, geneal, gen=3){
 #' @param geneal the full genealogy  (in data frame format)
 #' @examples
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
+#' ig <- dfToIG(sbGeneal)
 #' getEdges(ig, sbGeneal)
 #' @export
 getEdges = function(ig, geneal){
@@ -645,8 +647,8 @@ getChild = function(v1, geneal){
 #' @param geneal the full genealogy  (in data frame format)
 #' @examples
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
-#' getDegree("Brim","Bedford",ig,sbGeneal)
+#' ig <- dfToIG(sbGeneal)
+#' getDegree("Brim", "Bedford", ig, sbGeneal)
 #' @export
 getDegree = function(v1, v2, ig, geneal){
   if(is.null(geneal)){
@@ -674,7 +676,6 @@ getNodes = function(geneal){
   nodes = nodes[!is.na(nodes)]
   return(nodes)
 }
-
 
 #' Returns the parents of a particular variety (if they exist)
 #' 
@@ -707,11 +708,15 @@ getParent = function(v1, geneal){
 #' @param isDirected whether or not the graph is directed (defaults to false)
 #' @examples
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
-#' getPath("Brim","Bedford",ig,sbGeneal)
-#' getPath("Tokyo","Volstate",ig,sbGeneal)
+#' ig <- dfToIG(sbGeneal)
+#' getPath("Brim", "Bedford", ig, sbGeneal)
+#' getPath("Tokyo", "Volstate", ig, sbGeneal)
 #' @export
 getPath = function(v1, v2, ig, geneal, silent=FALSE, isDirected=FALSE){
+  v1Year = getYear(v1, geneal)
+  v2Year = getYear(v2, geneal)
+  geneal = geneal[which(geneal$parent!=""),]
+  ig = dfToIG(geneal)
   if(!is.character(v1) & !is.character(v2)){
     stop("First two arguments must be strings")
   } else {
@@ -750,6 +755,12 @@ getPath = function(v1, v2, ig, geneal, silent=FALSE, isDirected=FALSE){
       for (i in 1:length(pathVIndicesForward)){
         pathVertices = c(pathVertices, igraph::get.vertex.attribute(ig, "name", index=pathVIndicesForward[i]))
         yearVertices = c(yearVertices, getYear(pathVertices[i], geneal))
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v1){
+          yearVertices[i] = v1Year
+        }
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v2){
+          yearVertices[i] = v2Year
+        }
       }
       retPath = list(pathVertices = pathVertices, yearVertices = yearVertices)
     }
@@ -758,6 +769,12 @@ getPath = function(v1, v2, ig, geneal, silent=FALSE, isDirected=FALSE){
       for (i in 1:length(pathVIndicesReverse)){
         pathVertices = c(pathVertices, igraph::get.vertex.attribute(ig, "name", index=pathVIndicesReverse[i]))
         yearVertices = c(yearVertices, getYear(pathVertices[i], geneal))
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v1){
+          yearVertices[i] = v1Year
+        }
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v2){
+          yearVertices[i] = v2Year
+        }   
       }
       retPath = list(pathVertices = pathVertices, yearVertices = yearVertices)
     }
@@ -768,6 +785,12 @@ getPath = function(v1, v2, ig, geneal, silent=FALSE, isDirected=FALSE){
       for (i in 1:length(pathVIndices)){
         pathVertices = c(pathVertices, igraph::get.vertex.attribute(ig, "name", index=pathVIndices[i]))
         yearVertices = c(yearVertices, getYear(pathVertices[i], geneal))
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v1){
+          yearVertices[i] = v1Year
+        }
+        if (is.na(getYear(pathVertices[i], geneal)) && pathVertices[i] == v2){
+          yearVertices[i] = v2Year
+        }
       }
       retPath = list(pathVertices = pathVertices, yearVertices = yearVertices)
     }
@@ -786,8 +809,8 @@ getPath = function(v1, v2, ig, geneal, silent=FALSE, isDirected=FALSE){
 #' @param geneal the full genealogy  (in data frame format)
 #' @examples
 #' data(sbGeneal)
-#' getYear("Essex",sbGeneal)
-#' getYear("Tokyo",sbGeneal)
+#' getYear("Essex", sbGeneal)
+#' getYear("Tokyo", sbGeneal)
 #' @export
 getYear = function(v1, geneal){
   return(geneal[which(geneal[,1] == v1),]$year[1])
@@ -801,8 +824,8 @@ getYear = function(v1, geneal){
 #' @param geneal the full genealogy  (in data frame format)
 #' @examples
 #' data(sbGeneal)
-#' isChild("Essex","Young",sbGeneal)
-#' isChild("Young","Essex",sbGeneal)
+#' isChild("Essex", "Young", sbGeneal)
+#' isChild("Young", "Essex", sbGeneal)
 #' @export
 isChild = function(child, parent, geneal){
   for (i in 1:length(which(geneal$parent==parent))){
@@ -824,8 +847,8 @@ isChild = function(child, parent, geneal){
 #' @param geneal the full genealogy  (in data frame format)
 #' @examples
 #' data(sbGeneal)
-#' isParent("Essex","Young",sbGeneal)
-#' isParent("Young","Essex",sbGeneal)
+#' isParent("Essex", "Young", sbGeneal)
+#' isParent("Young", "Essex", sbGeneal)
 #' @export
 isParent = function(child, parent, geneal){
   return (geneal[which(geneal$child==child),]$parent[1] == parent
@@ -891,11 +914,12 @@ nodeToDF = local({
 #' @export
 #' @examples
 #' data(sbGeneal)
-#' plotAncDes("Essex", sbGeneal, 2, 3, "blue") + ggplot2::labs(x="Generation index",y="")
-#' plotAncDes("Tokyo", sbGeneal, vColor="red")
+#' plotAncDes("Tokyo", sbGeneal, vColor = "red")
+#' plotAncDes("Essex", sbGeneal, 2, 3, "blue") + ggplot2::labs(x = "Generation index", y = "")
 plotAncDes = function(v1, geneal, mAnc=3, mDes=3, vColor="#D35C79"){
   color <- x <- y <- label2 <- size <- xstart <- ystart <- xend <- yend <- branchx <- branchy <- NULL
   # Plot the data frame, if it exists
+  geneal = geneal[which(geneal$parent!=""),]
   gDF = buildAncDesTotalDF(v1, geneal, mAnc, mDes)
   gDF[gDF$root.gen==0&gDF$gen==0,]$color = vColor
   if(nrow(gDF)>0){
@@ -904,14 +928,14 @@ plotAncDes = function(v1, geneal, mAnc=3, mDes=3, vColor="#D35C79"){
       ggplot2::geom_segment(ggplot2::aes(x=xstart, y=ystart, xend=xend, yend=yend),inherit.aes=F) + 
       # Draw the underline of the variety
       ggplot2::geom_segment(ggplot2::aes(x=xend, y=yend, xend=branchx, yend=branchy),inherit.aes=F) +
-      ggplot2::facet_wrap(~variety, scales="free", ncol=2) +
+      # ggplot2::facet_wrap(~variety, scales="free", ncol=2) +
       ggplot2::scale_size_continuous(range=c(3,3),guide="none") +
       ggplot2::scale_colour_identity() +
       ggplot2::theme_bw() +
-      ggplot2::theme(axis.text=ggplot2::element_blank(), 
-                     axis.ticks=ggplot2::element_blank()) + 
-      ggplot2::scale_x_continuous(expand = c(.1, 1.075)) + 
-      ggplot2::scale_y_continuous(expand = c(.1, 1.075)) + 
+      ggplot2::theme(panel.grid.major = ggplot2::element_blank(),
+                     panel.grid.minor = ggplot2::element_blank(),
+                     axis.text=ggplot2::element_blank(), 
+                     axis.ticks=ggplot2::element_blank()) +
       ggplot2::labs(x="",y="")
   } else {
     plotGenImage = ggplot2::ggplot() + 
@@ -939,10 +963,10 @@ plotAncDes = function(v1, geneal, mAnc=3, mDes=3, vColor="#D35C79"){
 #' @seealso \url{http://www.r-project.org} for iGraph information
 #' @examples
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
-#' varieties=c("Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
-#' p = plotDegMatrix(varieties, ig, sbGeneal, "Soybean label", "Soybean label", "Degree")
-#' p + ggplot2::scale_fill_continuous(low="white", high="darkgreen")
+#' ig <- dfToIG(sbGeneal)
+#' varieties <- c("Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
+#' p <- plotDegMatrix(varieties, ig, sbGeneal, "Soybean label", "Soybean label", "Degree")
+#' p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen")
 #' 
 #' @export
 plotDegMatrix = function(varieties,ig,geneal,xLab="Variety",yLab="Variety",legendLab="Degree"){
@@ -961,7 +985,7 @@ plotDegMatrix = function(varieties,ig,geneal,xLab="Variety",yLab="Variety",legen
     ggplot2::geom_raster() +
     ggplot2::scale_x_continuous(breaks=seq(1, length(varieties), 1), labels=varieties) +
     ggplot2::scale_y_continuous(breaks=seq(1, length(varieties), 1), labels=rev(varieties)) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1)) + ggplot2::coord_equal()
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, size = 15), axis.text.y = ggplot2::element_text(size = 15), axis.title = ggplot2::element_text(size = 15), legend.title = ggplot2::element_text(size = 15), legend.text = ggplot2::element_text(size = 15)) + ggplot2::coord_equal()
   heatMap
 }
 
@@ -973,43 +997,35 @@ plotDegMatrix = function(varieties,ig,geneal,xLab="Variety",yLab="Variety",legen
 #' parent-child relationships between those nodes. For visual appeal, there is a grey
 #' box that outlines the node label, as well as an underline and overline for each label.
 #' @param path object created from function getPath
+#' @param fontFace fontface for the two nodes of interest (1=plain, 2=bold, 3=italic, 4=bold-italic), DEFAULT is 1 
 #' @seealso \code{\link{getPath}} for information on input path building
 #' @export
 #' @examples
 #' data(sbGeneal)
 #' ig <- dfToIG(sbGeneal)
-#' p <- getPath("Brim","Bedford",ig,sbGeneal)
+#' p <- getPath("Brim", "Bedford", ig, sbGeneal)
 #' plotPath(p)
-plotPath = function(path){
+#' plotPath(p, fontFace = 4)
+plotPath = function(path, fontFace = 1){
   x <- y <- label <- xstart <- ystart <- xend <- yend <- NULL
   if(sum(names(path)%in%c("pathVertices", "yearVertices"))!=2){
     stop("path does not appear to be a result of the getPath() function")
   }
   
   pPDF <- buildPathDF(path)
+  pPDF$fontface = rep(1,each=length(path$pathVertices))
+  pPDF[pPDF$label==path$pathVertices[1],]$fontface = fontFace
+  pPDF[pPDF$label==path$pathVertices[length(path$pathVertices)],]$fontface = fontFace
+  
+  colnames(pPDF)[which(colnames(pPDF)=="x")] = "Year"
+  #ggplot2::ggplot(data = pPDF,ggplot2::aes(x = x, y = y, label = label)) + geom_label()
   
   if (length(dim(pPDF))>1){ # check to make sure pPDF is a data frame
-    # The textFrame object will be used to create a grey rectangle around each node label
-    textFrame = data.frame(x = pPDF$x, y = pPDF$y, label = pPDF$label)
-    textFrame = transform(textFrame,
-                          w = strwidth(pPDF$label, 'inches') + 0.25,
-                          h = strheight(pPDF$label, 'inches') + 0.25
-    )
     
-    # The plotImage object creates a grey rectangle (geom_rect) to highlight the node
-    # label; three line segments (geom_segment) to create node label underline, node
-    # label overline, and edges between nodes; and text (geom_text) to write the node label.
-    plotPathImage = ggplot2::ggplot(data = pPDF,ggplot2::aes(x = x, y = y)) + 
-      ggplot2::geom_rect(data = textFrame, ggplot2::aes(xmin = x - strwidth(label, "inches")*1.2,
-                                                        xmax = x + strwidth(label, "inches")*1.2, 
-                                                        ymin = y-.1, ymax = y+.1), fill = "grey80") +
-      ggplot2::geom_segment(ggplot2::aes(x=x - strwidth(label, "inches")*1.2, y=y-.1,
-                                         xend =  x + strwidth(label, "inches")*1.2, yend = y-.1)) +
-      ggplot2::geom_segment(ggplot2::aes(x=x - strwidth(label, "inches")*1.2, y=y+.1,
-                                         xend =  x + strwidth(label, "inches")*1.2, yend = y+.1)) +
+    plotPathImage = ggplot2::ggplot(data = pPDF,ggplot2::aes(x = xstart, y = y, label=label)) +
       ggplot2::geom_segment(ggplot2::aes(x=xstart, y=ystart, xend=xend, yend=yend)) +
-      ggplot2::geom_text(data = textFrame,ggplot2::aes(x = x, y = y, label = label), size = 4) + 
-      ggplot2::xlab("Year") +     
+      ggplot2::geom_label(fill = "grey80", size = 3, fontface=pPDF$fontface) +
+      ggplot2::xlab("Year") +
       ggplot2::theme(axis.text.y=ggplot2::element_blank(),axis.ticks.y=ggplot2::element_blank(),
                      axis.title.y=ggplot2::element_blank(),legend.position="none",
                      panel.grid.major.y=ggplot2::element_blank(),
@@ -1037,17 +1053,25 @@ plotPath = function(path){
 #' @param geneal the full genealogy  (in data frame format)
 #' @param ig the graph representation of the data genealogy (in igraph format)
 #' @param binVector vector of numbers between 1 and length(binVector), each repeated exactly once
+#' @param edgeCol color of the non-path edges, default is "gray84"
+#' @param pathEdgeCol color of the path edges, default is "seagreen"
+#' @param nodeSize text size of the non-path node labels, default is 3
+#' @param pathNodeSize text size of the path node labels, default is 3
+#' @param pathNodeFont font face of text of the path node labels ("plain", "italic", "bold", "bold.italic"), default is "bold"
+#' @param animate If the plot will have interactive capabilities, default is FALSE
+#' @param nodeCol color of the non-path node labels, default is black
 #' @examples
 #' data(sbGeneal)
-#' ig = dfToIG(sbGeneal)
-#' path = getPath("Brim","Bedford",ig,sbGeneal)
-#' binVector=sample(1:12, 12)
-#' plotTotalImage <- plotPathOnAll(path=path, geneal=sbGeneal, ig=ig, binVector=sample(1:12, 12))
+#' ig <- dfToIG(sbGeneal)
+#' path <- getPath("Brim", "Bedford", ig, sbGeneal)
+#' bV <- sample(1:12, 12)
+#' plotTotalImage <- plotPathOnAll(path = path, geneal = sbGeneal, ig = ig, binVector = bV)
 #' plotTotalImage
 #' @seealso \url{http://www.r-project.org} for iGraph information
 #' @seealso \code{\link{getPath}} for information on input path building
 #' @export
-plotPathOnAll = function(path, geneal, ig, binVector=sample(1:12, 12)){
+#' 
+plotPathOnAll = function(path, geneal, ig, binVector=sample(1:12, 12), edgeCol = "gray84", pathEdgeCol = "seagreen", nodeSize = 3, pathNodeSize = 3, pathNodeFont = "bold", nodeCol = "black", animate = FALSE){
   x <- y <- xend <- yend <- xstart <- ystart <- label <- NULL
   if(class(ig)!="igraph"){
     stop("ig must be an igraph object")
@@ -1067,11 +1091,15 @@ plotPathOnAll = function(path, geneal, ig, binVector=sample(1:12, 12)){
   eTDF <- buildEdgeTotalDF(geneal, ig, binVector)
   pTDF <- buildPlotTotalDF(path, geneal, ig, binVector)
   
+  eTDF <- stats::na.omit(eTDF) #remove any row that has at least one NA
+  
   textFrame = data.frame(x = pMPDF$x, y = pMPDF$y, label = pMPDF$label)
   textFrame = transform(textFrame,
-                        w = strwidth(pMPDF$label, 'inches') + 0.25,
-                        h = strheight(pMPDF$label, 'inches') + 0.25
+                        w = graphics::strwidth(pMPDF$label, 'inches') + 0.25,
+                        h = graphics::strheight(pMPDF$label, 'inches') + 0.25
   )
+  
+  textFrame <- stats::na.omit(textFrame) #remove any row that has at least one NA
   
   # The plotTotalImage object creates two line segments (geom_segment), one to create grey
   # edges for non-path connections between pairs of nodes, the other to create light-green
@@ -1079,18 +1107,32 @@ plotPathOnAll = function(path, geneal, ig, binVector=sample(1:12, 12)){
   # create labels of size 2 for non-path connections between pairs of nodes, the other to
   # create labels of size 2.5 and boldfaced for path connections between pairs of nodes.
   plotTotalImage = ggplot2::ggplot(data = pMPDF, ggplot2::aes(x = x, y = y)) +
-    ggplot2::geom_segment(data = eTDF, ggplot2::aes(x=x, y=y-.1, xend=xend, yend=yend+.1), colour = "gray84") +
-    ggplot2::geom_segment(data = pTDF, ggplot2::aes(x=xstart, y=ystart, xend=xend, yend=yend), colour = "seagreen2", size = 1) +
-    ggplot2::geom_text(data = textFrame,ggplot2::aes(x = x, y = y, label = label), size = 2) +
-    ggplot2::geom_text(data = pTDF,ggplot2::aes(x = x, y = y, label = label), size = 2.5,  fontface="bold") +
-    ggplot2::xlab("Year") +    
+    ggplot2::geom_segment(data = eTDF, ggplot2::aes(x=x, y=y-.1, xend=xend, yend=yend+.1), colour = edgeCol) +
+    ggplot2::geom_segment(data = pTDF, ggplot2::aes(x=xstart, y=ystart, xend=xend, yend=yend), colour = pathEdgeCol, size = 1) +
+      ggplot2::geom_text(data = textFrame, ggplot2::aes(x = x, y = y, label = label), size = nodeSize, colour = nodeCol)
+      ggplot2::geom_text(data = textFrame, ggplot2::aes(x = x, y = y, label = label), size = nodeSize, colour = nodeCol)
+
+  plotTotalImage = plotTotalImage + ggplot2::geom_text(data = pTDF,ggplot2::aes(x = x, y = y, label = label), size = pathNodeSize, fontface=pathNodeFont) +
+    ggplot2::xlab("Year") +
     # Erase the y-axis, and only include grids from the x-axis
     ggplot2::theme(axis.text.y=ggplot2::element_blank(),axis.ticks.y=ggplot2::element_blank(),
                    axis.title.y=ggplot2::element_blank(),legend.position="none",
                    panel.grid.major.y=ggplot2::element_blank(),
                    panel.grid.minor=ggplot2::element_blank())
-  # Return the plotTotalImage
-  plotTotalImage
+  
+  # Return the plotTotalImage, if animate is FALSE
+  if (animate==FALSE){
+    plotTotalImage    
+  }
+  # Return the animatePlotTotalImage, if animate is TRUE
+  else{
+    animatePlotTotalImage <- plotly::plotly_build(plotly::ggplotly(plotTotalImage, tooltip = c("x", "label")))
+    animatePlotTotalImage$data[[1]]$hoverinfo <- "none"
+    animatePlotTotalImage$data[[2]]$hoverinfo <- "none"
+    animatePlotTotalImage$data[[3]]$hoverinfo <- c("x+text")
+    animatePlotTotalImage$data[[4]]$hoverinfo <- c("x+text")
+    animatePlotTotalImage
+  }
 }
 
 #' Returns the image object to show the heat map of years between the inputted set of vertices
@@ -1104,9 +1146,9 @@ plotPathOnAll = function(path, geneal, ig, binVector=sample(1:12, 12)){
 #' @param legendLab string label on the legend (default is "Degree")
 #' @examples
 #' data(sbGeneal)
-#' varieties=c("Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
-#' p = plotYearMatrix(varieties,sbGeneal,"Variety", "Variety", "Degree")
-#' p + ggplot2::scale_fill_continuous(low="white", high="darkgreen")
+#' varieties <- c("Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
+#' p <- plotYearMatrix(varieties, sbGeneal, "Variety", "Variety", "Degree")
+#' p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen")
 #' 
 #' @export
 plotYearMatrix = function(varieties, geneal, xLab = "Variety", yLab = "Variety", legendLab = "Difference in years"){
