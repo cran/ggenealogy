@@ -4,7 +4,7 @@
 \alias{buildPlotTotalDF}
 \title{Build all labels in the graph}
 \usage{
-buildPlotTotalDF(path, geneal, ig, binVector = 1:12)
+buildPlotTotalDF(path, geneal, ig, colName, colNameY = "", bin = 12)
 }
 \arguments{
 \item{path}{path as returned from getPath() or a vector of two variety names which exist in ig}
@@ -13,7 +13,11 @@ buildPlotTotalDF(path, geneal, ig, binVector = 1:12)
 
 \item{ig}{the graph representation of the data genealogy (in igraph format)}
 
-\item{binVector}{vector of numbers between 1 and length(binVector), each repeated exactly once}
+\item{colName}{the name of the column of the data frame that contains the quantitative variable of interest (in character string format)}
+
+\item{colNameY}{the name of the second optional column of the data frame that contains the second optional quantitative variable of interest (in character string format). This optional quantitative variable will be plotted on the vertical axis.}
+
+\item{bin}{the number of bins to determine the vertical positions of nodes (default is 12). For more information on choosing bin size, please visit the ggenealogy vignette}
 }
 \description{
 This function takes the spreadTotalDF object (from the buildSpreadTotalDF function) and the path object
@@ -21,9 +25,9 @@ as inputs. From these objects, it creates a data frame object of the text label 
 varieties in the path, as well as the edges only in the varieties in the path.
 }
 \seealso{
-\url{http://www.r-project.org} for iGraph information
+\url{https://www.r-project.org} for iGraph information
 
-\url{http://www.r-project.org} for iGraph information
+\url{https://www.r-project.org} for iGraph information
 
 \code{\link{getPath}} for information on input path building
 }
