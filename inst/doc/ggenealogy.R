@@ -7,31 +7,31 @@ rm(list=ls())
 
 
 ###################################################
-### code chunk number 2: ggenealogy.Rnw:77-78 (eval = FALSE)
+### code chunk number 2: ggenealogy.Rnw:83-84 (eval = FALSE)
 ###################################################
 ## install.packages("ggenealogy")
 
 
 ###################################################
-### code chunk number 3: ggenealogy.Rnw:84-85
+### code chunk number 3: ggenealogy.Rnw:90-91
 ###################################################
 library(ggenealogy)
 
 
 ###################################################
-### code chunk number 4: ggenealogy.Rnw:90-91 (eval = FALSE)
+### code chunk number 4: ggenealogy.Rnw:96-97 (eval = FALSE)
 ###################################################
 ## help(package="ggenealogy")
 
 
 ###################################################
-### code chunk number 5: ggenealogy.Rnw:96-97 (eval = FALSE)
+### code chunk number 5: ggenealogy.Rnw:102-103 (eval = FALSE)
 ###################################################
 ## help(getChild)
 
 
 ###################################################
-### code chunk number 6: ggenealogy.Rnw:102-105 (eval = FALSE)
+### code chunk number 6: ggenealogy.Rnw:108-111 (eval = FALSE)
 ###################################################
 ## data(sbGeneal)
 ## getChild("Tokyo", sbGeneal)
@@ -39,7 +39,7 @@ library(ggenealogy)
 
 
 ###################################################
-### code chunk number 7: ggenealogy.Rnw:112-116
+### code chunk number 7: ggenealogy.Rnw:118-122
 ###################################################
 data(sbGeneal)
 head(sbGeneal)
@@ -48,41 +48,41 @@ str(sbGeneal)
 
 
 ###################################################
-### code chunk number 8: ggenealogy.Rnw:123-124
+### code chunk number 8: ggenealogy.Rnw:129-130
 ###################################################
 help(dfToIG)
 
 
 ###################################################
-### code chunk number 9: ggenealogy.Rnw:131-133
+### code chunk number 9: ggenealogy.Rnw:137-139
 ###################################################
 ig <- dfToIG(sbGeneal)
 class(ig)
 
 
 ###################################################
-### code chunk number 10: ggenealogy.Rnw:146-148
+### code chunk number 10: ggenealogy.Rnw:152-154
 ###################################################
 isParent("Young","Essex",sbGeneal)
 isParent("Essex","Young",sbGeneal)
 
 
 ###################################################
-### code chunk number 11: ggenealogy.Rnw:153-155
+### code chunk number 11: ggenealogy.Rnw:159-161
 ###################################################
 isChild("Young","Essex",sbGeneal)
 isChild("Essex","Young",sbGeneal)
 
 
 ###################################################
-### code chunk number 12: ggenealogy.Rnw:160-162
+### code chunk number 12: ggenealogy.Rnw:166-168
 ###################################################
 getVariable("Young", sbGeneal, "devYear")
 getVariable("Essex", sbGeneal, "devYear")
 
 
 ###################################################
-### code chunk number 13: ggenealogy.Rnw:167-170
+### code chunk number 13: ggenealogy.Rnw:173-176
 ###################################################
 getParent("Young",sbGeneal)
 getParent("Tokyo",sbGeneal)
@@ -90,52 +90,52 @@ getVariable("Tokyo", sbGeneal,"devYear")
 
 
 ###################################################
-### code chunk number 14: ggenealogy.Rnw:175-177
+### code chunk number 14: ggenealogy.Rnw:181-183
 ###################################################
 getChild("Tokyo",sbGeneal)
 getChild("Ogden",sbGeneal)
 
 
 ###################################################
-### code chunk number 15: ggenealogy.Rnw:186-187
+### code chunk number 15: ggenealogy.Rnw:192-193
 ###################################################
 getAncestors("Young",sbGeneal,1)
 
 
 ###################################################
-### code chunk number 16: ggenealogy.Rnw:192-194
+### code chunk number 16: ggenealogy.Rnw:198-200
 ###################################################
 getAncestors("Young",sbGeneal,5)
 nrow(getAncestors("Young",sbGeneal,5))
 
 
 ###################################################
-### code chunk number 17: ggenealogy.Rnw:201-202
+### code chunk number 17: ggenealogy.Rnw:207-208
 ###################################################
 getDescendants("Ogden",sbGeneal,1)
 
 
 ###################################################
-### code chunk number 18: ggenealogy.Rnw:207-208
+### code chunk number 18: ggenealogy.Rnw:213-214
 ###################################################
 getDescendants("Ogden",sbGeneal,2)
 
 
 ###################################################
-### code chunk number 19: ggenealogy.Rnw:217-219
+### code chunk number 19: ggenealogy.Rnw:223-225
 ###################################################
 getDegree("Tokyo", "Ogden", ig, sbGeneal)
 getDegree("Tokyo", "Holladay", ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 20: ggenealogy.Rnw:230-231
+### code chunk number 20: ggenealogy.Rnw:236-237
 ###################################################
 getBasicStatistics(ig)
 
 
 ###################################################
-### code chunk number 21: ggenealogy.Rnw:238-241
+### code chunk number 21: ggenealogy.Rnw:244-247
 ###################################################
 eList = getEdges(ig, sbGeneal)
 head(eList)
@@ -143,7 +143,7 @@ nrow(eList)
 
 
 ###################################################
-### code chunk number 22: ggenealogy.Rnw:246-249
+### code chunk number 22: ggenealogy.Rnw:252-255
 ###################################################
 nList = getNodes(sbGeneal)
 head(nList)
@@ -177,26 +177,26 @@ plotAncDes("Tokyo", sbGeneal, vColor = "blue") + ggplot2::labs(
 
 
 ###################################################
-### code chunk number 27: ggenealogy.Rnw:313-314
+### code chunk number 27: ggenealogy.Rnw:319-320
 ###################################################
 getPath("Brim", "Bedford", sbIG, sbGeneal, "devYear", isDirected = FALSE)
 
 
 ###################################################
-### code chunk number 28: ggenealogy.Rnw:319-321 (eval = FALSE)
+### code chunk number 28: ggenealogy.Rnw:325-327 (eval = FALSE)
 ###################################################
 ## dirIG = dfToIG(sbGeneal, isDirected = TRUE)
 ## getPath("Brim", "Bedford", dirIG, sbGeneal, "devYear", isDirected = TRUE)
 
 
 ###################################################
-### code chunk number 29: ggenealogy.Rnw:326-327 (eval = FALSE)
+### code chunk number 29: ggenealogy.Rnw:332-333 (eval = FALSE)
 ###################################################
 ## getPath("Bedford", "Brim", dirIG, sbGeneal, "devYear", isDirected=TRUE)
 
 
 ###################################################
-### code chunk number 30: ggenealogy.Rnw:334-335
+### code chunk number 30: ggenealogy.Rnw:340-341
 ###################################################
 pathBB = getPath("Bedford","Brim", ig, sbGeneal, "devYear", isDirected=FALSE)
 
@@ -284,7 +284,7 @@ p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen") +
 
 
 ###################################################
-### code chunk number 43: ggenealogy.Rnw:486-487
+### code chunk number 43: ggenealogy.Rnw:492-493
 ###################################################
 getDegree("Bedford", "Zane", ig, sbGeneal)
 
@@ -304,7 +304,7 @@ plotDegMatrix(varieties, ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 46: ggenealogy.Rnw:518-521
+### code chunk number 46: ggenealogy.Rnw:524-527
 ###################################################
 data("statGeneal")
 dim(statGeneal)
@@ -312,7 +312,7 @@ colnames(statGeneal)
 
 
 ###################################################
-### code chunk number 47: ggenealogy.Rnw:530-535
+### code chunk number 47: ggenealogy.Rnw:536-541
 ###################################################
 indVec <- getNodes(statGeneal)
 indVec <- indVec[which(indVec != "", )]
@@ -322,19 +322,19 @@ table(numDesc)
 
 
 ###################################################
-### code chunk number 48: ggenealogy.Rnw:538-539
+### code chunk number 48: ggenealogy.Rnw:544-545
 ###################################################
 which(numDesc == 159)
 
 
 ###################################################
-### code chunk number 49: ggenealogy.Rnw:544-545 (eval = FALSE)
+### code chunk number 49: ggenealogy.Rnw:550-551 (eval = FALSE)
 ###################################################
 ## plotAncDes("David Cox", statGeneal, mAnc = 6, mDes = 6, vCol = "blue")
 
 
 ###################################################
-### code chunk number 50: ggenealogy.Rnw:557-559
+### code chunk number 50: ggenealogy.Rnw:563-565
 ###################################################
 length(getChild("Peter Bloomfield", statGeneal))
 nrow(getDescendants("Peter Bloomfield", statGeneal, gen = 100))
@@ -401,21 +401,21 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 
 
 ###################################################
-### code chunk number 58: ggenealogy.Rnw:647-649
+### code chunk number 58: ggenealogy.Rnw:653-655
 ###################################################
 AKBranchYield <- getBranchQuant("A.K.", sbGeneal, "yield", 15)
 dplyr::select(AKBranchYield, -DesNames)
 
 
 ###################################################
-### code chunk number 59: ggenealogy.Rnw:656-658
+### code chunk number 59: ggenealogy.Rnw:662-664
 ###################################################
 CoxBranchYear <- getBranchQuant("David Cox", statGeneal, "gradYear", 15)
 head(dplyr::select(CoxBranchYear, -DesNames), 10)
 
 
 ###################################################
-### code chunk number 60: ggenealogy.Rnw:669-673
+### code chunk number 60: ggenealogy.Rnw:675-679
 ###################################################
 v1 = "David Cox"; geneal = statGeneal; colName = "thesis"; gen = 15
 rExpr = "grepl('(?i)Stochastic', geneal$colName)"
@@ -424,7 +424,7 @@ head(dplyr::select(CoxBranchStochastic, -DesNames))
 
 
 ###################################################
-### code chunk number 61: ggenealogy.Rnw:684-687
+### code chunk number 61: ggenealogy.Rnw:690-693
 ###################################################
 desDC <- getDescendants("David Cox", statGeneal, 15)
 tableDC <- table(statGeneal[match(desDC$label, statGeneal$child), ]$school)
@@ -432,7 +432,7 @@ tail(sort(tableDC), 5)
 
 
 ###################################################
-### code chunk number 62: ggenealogy.Rnw:692-696
+### code chunk number 62: ggenealogy.Rnw:698-702
 ###################################################
 colName = "school"
 rExpr = "geneal$colName=='University of London'"
@@ -441,7 +441,7 @@ head(dplyr::select(DCBranchUL, -DesNames))
 
 
 ###################################################
-### code chunk number 63: ggenealogy.Rnw:701-703
+### code chunk number 63: ggenealogy.Rnw:707-709
 ###################################################
 DCChild <- statGeneal[match(getChild("David Cox", statGeneal), statGeneal$child), ]
 sum(DCChild$school == "University of London")
