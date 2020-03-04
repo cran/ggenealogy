@@ -1,5 +1,5 @@
 Package: ggenealogy
-Version: 1.0.0
+Version: 1.0.1
 Title: Visualization Tools for Genealogical Data
 Description: Methods for searching through genealogical data and displaying the results. Plotting algorithms assist with data exploration and publication-quality image generation. Includes interactive genealogy visualization tools. Provides parsing and calculation methods for variables in descendant branches of interest. Uses the Grammar of Graphics.
 Author: Lindsay Rutter, Susan Vanderplas, Di Cook
@@ -11,8 +11,9 @@ Imports: ggplot2 (>= 2.2.0), igraph (>= 0.7.1), plyr (>= 1.8.1),
 VignetteBuilder: knitr
 Suggests: stringr (>= 0.6.2), knitr (>= 1.13), roxygen2 (>= 3.0.0),
         dplyr (>= 0.5.0)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-05-28 10:47:10 UTC; suzu
+Packaged: 2020-03-04 09:10:44 UTC; suzu
 Repository: CRAN
-Date/Publication: 2019-05-28 16:51:29 UTC
+Date/Publication: 2020-03-04 09:40:14 UTC

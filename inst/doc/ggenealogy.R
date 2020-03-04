@@ -1,4 +1,5 @@
 ### R code from vignette source 'ggenealogy.Rnw'
+### Encoding: UTF-8
 
 ###################################################
 ### code chunk number 1: ggenealogy.Rnw:55-56
@@ -122,20 +123,36 @@ getDescendants("Ogden",sbGeneal,2)
 
 
 ###################################################
-### code chunk number 19: ggenealogy.Rnw:223-225
+### code chunk number 19: ggenealogy.Rnw:221-225
+###################################################
+nr = nrow(sbGeneal)
+listInd = sbGeneal[(nr-3):nr,]$child
+listAnc = sapply(listInd, function(x) getAncestors(x, sbGeneal, 5))
+listAnc
+
+
+###################################################
+### code chunk number 20: ggenealogy.Rnw:230-232
+###################################################
+listAnc = sapply(listInd, function(x) getAncestors(x, sbGeneal, 5), simplify=F)
+listAnc
+
+
+###################################################
+### code chunk number 21: ggenealogy.Rnw:239-241
 ###################################################
 getDegree("Tokyo", "Ogden", ig, sbGeneal)
 getDegree("Tokyo", "Holladay", ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 20: ggenealogy.Rnw:236-237
+### code chunk number 22: ggenealogy.Rnw:252-253
 ###################################################
 getBasicStatistics(ig)
 
 
 ###################################################
-### code chunk number 21: ggenealogy.Rnw:244-247
+### code chunk number 23: ggenealogy.Rnw:260-263
 ###################################################
 eList = getEdges(ig, sbGeneal)
 head(eList)
@@ -143,7 +160,7 @@ nrow(eList)
 
 
 ###################################################
-### code chunk number 22: ggenealogy.Rnw:252-255
+### code chunk number 24: ggenealogy.Rnw:268-271
 ###################################################
 nList = getNodes(sbGeneal)
 head(nList)
@@ -151,120 +168,120 @@ length(nList)
 
 
 ###################################################
-### code chunk number 23: plotAncDes1
+### code chunk number 25: plotAncDes1
 ###################################################
 plotAncDes("Lee", sbGeneal,5,4)
 
 
 ###################################################
-### code chunk number 24: plotAncDes1
+### code chunk number 26: plotAncDes1
 ###################################################
 plotAncDes("Lee", sbGeneal,5,4)
 
 
 ###################################################
-### code chunk number 25: plotAncDes2
+### code chunk number 27: plotAncDes2
 ###################################################
 plotAncDes("Tokyo", sbGeneal, vColor = "blue") + ggplot2::labs(
   x="Generation index",y="")
 
 
 ###################################################
-### code chunk number 26: plotAncDes2
+### code chunk number 28: plotAncDes2
 ###################################################
 plotAncDes("Tokyo", sbGeneal, vColor = "blue") + ggplot2::labs(
   x="Generation index",y="")
 
 
 ###################################################
-### code chunk number 27: ggenealogy.Rnw:319-320
+### code chunk number 29: ggenealogy.Rnw:335-336
 ###################################################
 getPath("Brim", "Bedford", sbIG, sbGeneal, "devYear", isDirected = FALSE)
 
 
 ###################################################
-### code chunk number 28: ggenealogy.Rnw:325-327 (eval = FALSE)
+### code chunk number 30: ggenealogy.Rnw:341-343 (eval = FALSE)
 ###################################################
 ## dirIG = dfToIG(sbGeneal, isDirected = TRUE)
 ## getPath("Brim", "Bedford", dirIG, sbGeneal, "devYear", isDirected = TRUE)
 
 
 ###################################################
-### code chunk number 29: ggenealogy.Rnw:332-333 (eval = FALSE)
+### code chunk number 31: ggenealogy.Rnw:348-349 (eval = FALSE)
 ###################################################
 ## getPath("Bedford", "Brim", dirIG, sbGeneal, "devYear", isDirected=TRUE)
 
 
 ###################################################
-### code chunk number 30: ggenealogy.Rnw:340-341
+### code chunk number 32: ggenealogy.Rnw:356-357
 ###################################################
 pathBB = getPath("Bedford","Brim", ig, sbGeneal, "devYear", isDirected=FALSE)
 
 
 ###################################################
-### code chunk number 31: plotPath1
+### code chunk number 33: plotPath1
 ###################################################
 plotPath(pathBB, sbGeneal, "devYear")
 
 
 ###################################################
-### code chunk number 32: plotPath1
+### code chunk number 34: plotPath1
 ###################################################
 plotPath(pathBB, sbGeneal, "devYear")
 
 
 ###################################################
-### code chunk number 33: plotPath1a
+### code chunk number 35: plotPath1a
 ###################################################
 plotPath(pathBB, sbGeneal, "devYear") + ggplot2::xlab("Year")
 
 
 ###################################################
-### code chunk number 34: plotPath1a
+### code chunk number 36: plotPath1a
 ###################################################
 plotPath(pathBB, sbGeneal, "devYear") + ggplot2::xlab("Year")
 
 
 ###################################################
-### code chunk number 35: plotPath2
+### code chunk number 37: plotPath2
 ###################################################
 pathNT = getPath("Narow", "Tokyo", ig, sbGeneal, "devYear", isDirected=FALSE)
 plotPath(pathNT, sbGeneal, "devYear")
 
 
 ###################################################
-### code chunk number 36: plotPath2
+### code chunk number 38: plotPath2
 ###################################################
 pathNT = getPath("Narow", "Tokyo", ig, sbGeneal, "devYear", isDirected=FALSE)
 plotPath(pathNT, sbGeneal, "devYear")
 
 
 ###################################################
-### code chunk number 37: plotPathOnAll1
+### code chunk number 39: plotPathOnAll1
 ###################################################
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 3)
 
 
 ###################################################
-### code chunk number 38: plotPathOnAll1
+### code chunk number 40: plotPathOnAll1
 ###################################################
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 3)
 
 
 ###################################################
-### code chunk number 39: plotPathOnAll2
+### code chunk number 41: plotPathOnAll2
 ###################################################
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 6) + ggplot2::xlab("Year")
 
 
 ###################################################
-### code chunk number 40: plotPathOnAll2
+### code chunk number 42: plotPathOnAll2
 ###################################################
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 6) + ggplot2::xlab("Year")
 
 
 ###################################################
-### code chunk number 41: plotDegMatrix1
+### code chunk number 43: plotDegMatrix1
 ###################################################
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 p = plotDegMatrix(varieties, ig, sbGeneal)
@@ -274,7 +291,7 @@ p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen") +
 
 
 ###################################################
-### code chunk number 42: plotDegMatrix1
+### code chunk number 44: plotDegMatrix1
 ###################################################
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 p = plotDegMatrix(varieties, ig, sbGeneal)
@@ -284,27 +301,27 @@ p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen") +
 
 
 ###################################################
-### code chunk number 43: ggenealogy.Rnw:492-493
+### code chunk number 45: ggenealogy.Rnw:508-509
 ###################################################
 getDegree("Bedford", "Zane", ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 44: plotYearMatrix1
+### code chunk number 46: plotYearMatrix1
 ###################################################
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 plotDegMatrix(varieties, ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 45: plotYearMatrix1
+### code chunk number 47: plotYearMatrix1
 ###################################################
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 plotDegMatrix(varieties, ig, sbGeneal)
 
 
 ###################################################
-### code chunk number 46: ggenealogy.Rnw:524-527
+### code chunk number 48: ggenealogy.Rnw:540-543
 ###################################################
 data("statGeneal")
 dim(statGeneal)
@@ -312,7 +329,7 @@ colnames(statGeneal)
 
 
 ###################################################
-### code chunk number 47: ggenealogy.Rnw:536-541
+### code chunk number 49: ggenealogy.Rnw:552-557
 ###################################################
 indVec <- getNodes(statGeneal)
 indVec <- indVec[which(indVec != "", )]
@@ -322,26 +339,26 @@ table(numDesc)
 
 
 ###################################################
-### code chunk number 48: ggenealogy.Rnw:544-545
+### code chunk number 50: ggenealogy.Rnw:560-561
 ###################################################
 which(numDesc == 159)
 
 
 ###################################################
-### code chunk number 49: ggenealogy.Rnw:550-551 (eval = FALSE)
+### code chunk number 51: ggenealogy.Rnw:566-567 (eval = FALSE)
 ###################################################
 ## plotAncDes("David Cox", statGeneal, mAnc = 6, mDes = 6, vCol = "blue")
 
 
 ###################################################
-### code chunk number 50: ggenealogy.Rnw:563-565
+### code chunk number 52: ggenealogy.Rnw:579-581
 ###################################################
 length(getChild("Peter Bloomfield", statGeneal))
 nrow(getDescendants("Peter Bloomfield", statGeneal, gen = 100))
 
 
 ###################################################
-### code chunk number 51: pathCB
+### code chunk number 53: pathCB
 ###################################################
 statIG <- dfToIG(statGeneal)
 pathCB <- getPath("David Cox", "Petra Buzkova", statIG, statGeneal, "gradYear", isDirected = FALSE)
@@ -350,7 +367,7 @@ plotPath(pathCB, statGeneal, "gradYear", fontFace = 4) + ggplot2::theme(axis.tex
 
 
 ###################################################
-### code chunk number 52: pathCB
+### code chunk number 54: pathCB
 ###################################################
 statIG <- dfToIG(statGeneal)
 pathCB <- getPath("David Cox", "Petra Buzkova", statIG, statGeneal, "gradYear", isDirected = FALSE)
@@ -359,7 +376,7 @@ plotPath(pathCB, statGeneal, "gradYear", fontFace = 4) + ggplot2::theme(axis.tex
 
 
 ###################################################
-### code chunk number 53: plotCBText
+### code chunk number 55: plotCBText
 ###################################################
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200) +
    ggplot2::theme(axis.text = ggplot2::element_text(size = 8), axis.title =
@@ -367,7 +384,7 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200) +
 
 
 ###################################################
-### code chunk number 54: plotCBText
+### code chunk number 56: plotCBText
 ###################################################
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200) +
    ggplot2::theme(axis.text = ggplot2::element_text(size = 8), axis.title =
@@ -375,7 +392,7 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200) +
 
 
 ###################################################
-### code chunk number 55: plotCBNoText
+### code chunk number 57: plotCBNoText
 ###################################################
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
    pathNodeSize = 2.5, nodeCol = "darkgray", edgeCol = "lightgray") +
@@ -384,7 +401,7 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 
 
 ###################################################
-### code chunk number 56: plotCBNoText
+### code chunk number 58: plotCBNoText
 ###################################################
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
    pathNodeSize = 2.5, nodeCol = "darkgray", edgeCol = "lightgray") +
@@ -393,7 +410,7 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 
 
 ###################################################
-### code chunk number 57: plotAnimate (eval = FALSE)
+### code chunk number 59: plotAnimate (eval = FALSE)
 ###################################################
 ## plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 ##    pathNodeSize = 2.5, nodeCol = "darkgray", edgeCol = "lightgray", animate =
@@ -401,21 +418,21 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 
 
 ###################################################
-### code chunk number 58: ggenealogy.Rnw:653-655
+### code chunk number 60: ggenealogy.Rnw:669-671
 ###################################################
 AKBranchYield <- getBranchQuant("A.K.", sbGeneal, "yield", 15)
 dplyr::select(AKBranchYield, -DesNames)
 
 
 ###################################################
-### code chunk number 59: ggenealogy.Rnw:662-664
+### code chunk number 61: ggenealogy.Rnw:678-680
 ###################################################
 CoxBranchYear <- getBranchQuant("David Cox", statGeneal, "gradYear", 15)
 head(dplyr::select(CoxBranchYear, -DesNames), 10)
 
 
 ###################################################
-### code chunk number 60: ggenealogy.Rnw:675-679
+### code chunk number 62: ggenealogy.Rnw:691-695
 ###################################################
 v1 = "David Cox"; geneal = statGeneal; colName = "thesis"; gen = 15
 rExpr = "grepl('(?i)Stochastic', geneal$colName)"
@@ -424,7 +441,7 @@ head(dplyr::select(CoxBranchStochastic, -DesNames))
 
 
 ###################################################
-### code chunk number 61: ggenealogy.Rnw:690-693
+### code chunk number 63: ggenealogy.Rnw:706-709
 ###################################################
 desDC <- getDescendants("David Cox", statGeneal, 15)
 tableDC <- table(statGeneal[match(desDC$label, statGeneal$child), ]$school)
@@ -432,7 +449,7 @@ tail(sort(tableDC), 5)
 
 
 ###################################################
-### code chunk number 62: ggenealogy.Rnw:698-702
+### code chunk number 64: ggenealogy.Rnw:714-718
 ###################################################
 colName = "school"
 rExpr = "geneal$colName=='University of London'"
@@ -441,7 +458,7 @@ head(dplyr::select(DCBranchUL, -DesNames))
 
 
 ###################################################
-### code chunk number 63: ggenealogy.Rnw:707-709
+### code chunk number 65: ggenealogy.Rnw:723-725
 ###################################################
 DCChild <- statGeneal[match(getChild("David Cox", statGeneal), statGeneal$child), ]
 sum(DCChild$school == "University of London")
