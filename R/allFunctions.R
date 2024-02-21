@@ -276,11 +276,11 @@ buildDesList = function(v1, geneal, gen=0){
 #' @seealso \url{https://www.r-project.org} for iGraph information
 buildEdgeTotalDF = function(geneal, ig, colName, bin = 12){
   
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object")
   }
   
-  if(class(bin) != "numeric"){
+  if ("numeric" %in% class("bin")){
     stop("bin must contain a number")
   }
   
@@ -338,11 +338,11 @@ buildEdgeTotalDF = function(geneal, ig, colName, bin = 12){
 #' @seealso \code{\link{getPath}} for information on input path building
 buildMinusPathDF = function(path, geneal, ig, colName, colNameY, bin = 12){
   
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object")
   }
   
-  if(class(bin) != "numeric"){
+  if ("numeric" %in% class("bin")){
     stop("bin must contain a number")
   }
   
@@ -462,7 +462,7 @@ buildPathDF = function(path, geneal, colName, colNameY=""){
 #' @seealso \url{https://www.r-project.org} for iGraph information
 #' @seealso \code{\link{getPath}} for information on input path building
 buildPlotTotalDF = function(path, geneal, ig, colName, colNameY = "", bin = 12){
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object")
   }
   
@@ -476,7 +476,7 @@ buildPlotTotalDF = function(path, geneal, ig, colName, colNameY = "", bin = 12){
     stop("path does not appear to be a result of the getPath() function")
   } 
   
-  if(class(bin) != "numeric"){
+  if ("numeric" %in% class("bin")){
     stop("bin must contain a number")
   }
   
@@ -522,11 +522,11 @@ buildPlotTotalDF = function(path, geneal, ig, colName, colNameY = "", bin = 12){
 #' @param bin the number of bins to determine the vertical positions of nodes (default is 12). For more information on choosing bin size, please visit the ggenealogy vignette
 #' @seealso \url{https://www.r-project.org} for iGraph information
 buildSpreadTotalDF = function(geneal, ig, colName, bin = 12){
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object.")
   }
   
-  if(class(bin) != "numeric"){
+  if ("numeric" %in% class("bin")){
     stop("bin must contain a number")
   }
   
@@ -604,7 +604,7 @@ getAncestors = function(v1, geneal, gen = 3){
 #' \doi{10.18637/jss.v089.i13}
 #' @export
 getBasicStatistics = function(ig){
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object.")
   }
   retStats = list()
@@ -1306,7 +1306,7 @@ plotPath = function(path, geneal, colName, colNameY="", fontFace = 1){
 #' \doi{10.18637/jss.v089.i13}
 plotPathOnAll = function(path, geneal, ig, colName, colNameY = "", bin = 12, edgeCol = "gray84", pathEdgeCol = "seagreen", nodeSize = 3, pathNodeSize = 3, pathNodeFont = "bold", nodeCol = "black", animate = FALSE){
   x <- y <- xend <- yend <- xstart <- ystart <- label <- NULL
-  if(class(ig)!="igraph"){
+  if ("igraph" %in% class("ig")){
     stop("ig must be an igraph object")
   }
   

@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage[]{media9}
+\usepackage[T1]{fontenc}
 
 \setlength{\parindent}{0pt} % Remove indent at new paragraphs
 \setcounter{secnumdepth}{0}  % Remove section numbering at certain depth
@@ -18,6 +19,7 @@
 \usepackage{adjustbox}
 \numberwithin{equation}{section} % Equation numbers relative to sections
 
+
 % ---------------------------------------------------------------------------------------------------------------------------------------
 
 % \VignetteIndexEntry{ggenealogy: Visualization tools for genealogical data}
@@ -29,36 +31,41 @@
 \newcommand{\R}{{\normalfont\textsf{R }}{}}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
-% <<label=R options,echo=FALSE>>=
-% options(width = 60)
-% options(SweaveHooks = list(fig = function() par(mar=c(3,3,1,0.5),mgp = c(2,1,0))))
-% @
+<<include=FALSE>>=
+library(knitr)
+opts_chunk$set(
+concordance=TRUE
+)
+@
 
-%\SweaveOpts{prefix.string=fig,include=F,keep.source=T,eps=FALSE}
+<<label=Roptions,echo=FALSE>>=
+options(width = 60)
+options(SweaveHooks = list(fig = function() par(mar=c(3,3,1,0.5),mgp = c(2,1,0))))
+@
 
-% <<echo=false>>=
-% options(continue="  ")
-% @
-% %@% TO ELIMINATE THE "+" IN CONSECUTIVE SCRIPT LINES
+<<results=hide,echo=FALSE>>=
+my.Swd <- function(name, width, height, ...)
+ grDevices::cairo_pdf(
+  filename = paste(name, "pdf", sep = "."),
+  width = width, height = height
+ )
+@
+\SweaveOpts{grdevice=my.Swd,pdf=FALSE}
+
 
 \title{Vignette: Grammar of graphics of genealogy (ggenealogy)}
 \author{Lindsay Rutter, Susan Vanderplas, Di Cook}
-\date{\pkg{ggenealogy} version \Sexpr{packageDescription("ggenealogy")[["Version"]]} , \Sexpr{Sys.Date()} }
 \maketitle
+
 
 \tableofcontents
 \setcounter{footnote}{1} \footnotetext{This \LaTeX\ vignette document is created using the \R function \code{Sweave} on the \R package \pkg{ggenealogy}. It is automatically downloaded with the package and can be accessed with the \R command \code{vignette("ggenealogy")}.}  \newpage
 \setlength{\parskip}{10pt} % Inter-paragraph spacing
 
-<<echo=FALSE>>=
-rm(list=ls())
-@ 
-
 \section{Citation}
 
-To cite the \pkg{ggenealogy} package, please use:
+Please cite \pkg{ggenealogy} as follows:
 
 Rutter L, VanderPlas S, Cook D, Graham MA (2019). ggenealogy: An R Package for Visualizing Genealogical Data. Journal of Statistical Software, 89(13), 1-31. doi: 10.18637/jss.v089.i13
 
@@ -72,7 +79,7 @@ The \pkg{ggenealogy} package provides tools to examine genealogical data, genera
 
 \textbf{Caution}
 
-\texttt{igraph} must be used with version >= 0.7.1
+\texttt{igraph} must be used with version $>=$ 0.7.1
 
 \section{Introduction}
 
@@ -80,14 +87,14 @@ The \pkg{ggenealogy} package provides tools to examine genealogical data, genera
 
 \R is an open source software project for statistical computing, and can be freely downloaded from the Comprehensive R Archive Network (CRAN) website. The link to contributed documentation on the CRAN website offers practical resources for an introduction to \R, in several languages. After downloading and installing \R, the installation of additional packages is straightforward. To install the \pkg{ggenealogy} package from \R, use the command:
 
-<<results = hide, eval=FALSE>>=
+<<eval=FALSE>>=
 install.packages("ggenealogy")
 @
 
 \noindent
 The \pkg{ggenealogy} package should now be successfully installed. Next, to render it accessible to the current \R session, simply type:
 
-<<results = hide>>=
+<<>>=
 library(ggenealogy)
 @
 
@@ -126,7 +133,7 @@ We see that the \texttt{sbGeneal} data file is a data frame structure with \Sexp
 
 Now that the \texttt{sbGeneal} file has been loaded as a data frame, it must next be converted into a graph object using the \texttt{dfToIG()} function. The \texttt{dfToIG()} function requires a data frame as input, and that data frame should be structured such that each row represents an edge with a child and parent relationship. For more information, try using the help command on the function:
 
-<<>>=
+<<eval=FALSE>>=
 help(dfToIG)
 @
 
@@ -288,15 +295,15 @@ plotAncDes("Lee", sbGeneal,5,4)
 \setkeys{Gin}{width=6in, height=6in}
 \begin{figure} 
   \begin{center} 
-<<label=plotAncDes1,fig=TRUE,echo=FALSE>>= 
+<<label=plotAncDes1-1,echo=FALSE>>=
 <<plotAncDes1>>
 @ 
-\end{center} 
+  \end{center} 
 \caption{Ancestors and descendants of the ``Lee" variety, constrained on the horizontal axis by generational separation from ``Lee".}
-\label{fig:plotAncDes1}
+\label{fig:plotAncDes1-1}
 \end{figure}
 
-We immediately see in Figure~\ref{fig:plotAncDes1} that this visual representation of the ancestors and descendants of a given variety can often provide enhanced readability compared to the list output provided in the previous functions, \texttt{getAncestors()} and \texttt{getDescendants()}. We notice that even though we specified for 5 generations of ancestors, the extent of documented ancestors of ``Lee" includes only 3 generations.
+We immediately see in Figure~\ref{fig:plotAncDes1-1} that this visual representation of the ancestors and descendants of a given variety can often provide enhanced readability compared to the list output provided in the previous functions, \texttt{getAncestors()} and \texttt{getDescendants()}. We notice that even though we specified for 5 generations of ancestors, the extent of documented ancestors of ``Lee" includes only 3 generations.
 
 We also see now that some node labels are repeated. For instance, the ``5601T" variety appears twice, once as a great-grandchild (third generation descendant) of ``Lee", and once as a great-great-grandchild (fourth generation descendant) of ``Lee". This is because there are two separate parent-child pathways between ``Lee" and ``5601T", one pathway with only two nodes (``Essex" and ``Hutchson") between them, and one pathway with three nodes (``Essex", ``T80-69", and ``TN89-39") between them.
 
@@ -314,15 +321,15 @@ plotAncDes("Tokyo", sbGeneal, vColor = "blue") + ggplot2::labs(
 \setkeys{Gin}{width=6in, height=6in}
 \begin{figure} 
   \begin{center} 
-<<label=plotAncDes2,fig=TRUE,echo=FALSE>>= 
+<<label=plotAncDes2-1,echo=FALSE>>=
 <<plotAncDes2>>
 @ 
-\end{center} 
+  \end{center} 
 \caption{Ancestors and descendants of the ``Tokyo" variety, constrained on the horizontal axis by generational separation from ``Tokyo".}
-\label{fig:plotAncDes2}
+\label{fig:plotAncDes2-1}
 \end{figure}
 
-We verify immediately from Figure~\ref{fig:plotAncDes2} that the ``Tokyo" variety does not have any ancestors in this dataset, an observation consistent with what we discovered earlier. We also see the ``Tokyo" variety only has two children, but has many more grandchildren, and great-grand children.
+We verify immediately from Figure~\ref{fig:plotAncDes2-1} that the ``Tokyo" variety does not have any ancestors in this dataset, an observation consistent with what we discovered earlier. We also see the ``Tokyo" variety only has two children, but has many more grandchildren, and great-grand children.
 
 \subsection{Plotting the shortest path between two vertices}
 
@@ -359,39 +366,39 @@ pathBB = getPath("Bedford","Brim", ig, sbGeneal, "devYear", isDirected=FALSE)
 
 Now that we have a non-empty \texttt{pathBB} object that consists of two lists (for variety names and years), we can plot the relationship between the two using the \texttt{plotPath()} function.
 
-<<label=plotPath1, include=FALSE>>=
+<<label=plotPath, include=FALSE>>=
 plotPath(pathBB, sbGeneal, "devYear")
 @
 
 \setkeys{Gin}{width=5in, height=5in}
 \begin{figure}[b!]
-\begin{center}
-<<label=plotPath1,fig=TRUE,echo=FALSE>>= 
-<<plotPath1>>
+  \begin{center}
+<<label=plotPath-1,echo=FALSE>>=
+<<plotPath>>
 @
-\end{center}
+  \end{center}
 \caption{The shortest path between varieties ``Brim" and ``Bedford" is not strictly composed of unidirectional parent-child relationships, but instead, includes cousin-like relationships.}
-\label{fig:plotPath1}
+\label{fig:plotPath-1}
 \end{figure}
 
 Notice that the horizontal label by default uses the general label of the input column name (in this case ``devYear"). We can tailor this plot by appending basic \texttt{ggplot} syntax. For instance, if we wish to change the horizontal label to the more specific value of ``Year", then we can do as follows:
 
-<<label=plotPath1a, include=FALSE>>=
+<<label=plotPath1, include=FALSE>>=
 plotPath(pathBB, sbGeneal, "devYear") + ggplot2::xlab("Year")
 @
 
 \setkeys{Gin}{width=5in, height=5in}
 \begin{figure}[b!]
-\begin{center}
-<<label=plotPath1a,fig=TRUE,echo=FALSE>>= 
-<<plotPath1a>>
+  \begin{center}
+<<label=plotPath1-1,echo=FALSE>>=
+<<plotPath1>>
 @
-\end{center}
-\caption{The shortest path between varieties ``Brim" and ``Bedford" is not strictly composed of unidirectional parent-child relationships, but instead, includes cousin-like relationships. We changed the horizontal axis label from Figure \ref{fig:plotPath1} to now be ``Year".}
-\label{fig:plotPath1a}
+  \end{center}
+\caption{The shortest path between varieties ``Brim" and ``Bedford" is not strictly composed of unidirectional parent-child relationships, but instead, includes cousin-like relationships. We changed the horizontal axis label from Figure \ref{fig:plotPath1-1} to now be ``Year".}
+\label{fig:plotPath1-1}
 \end{figure}
 
-This produces a neat visual (see Figure~\ref{fig:plotPath1a}) that informs us of all the varieties involved in the shortest path between ``Brim" and ``Bedford". In this plot, the years of all varieties involved in the path are indicated on the horizontal axis, while the vertical axis has no meaning other than to simply to display the labels evenly spaced vertically. 
+This produces a neat visual (see Figure~\ref{fig:plotPath1-1}) that informs us of all the varieties involved in the shortest path between ``Brim" and ``Bedford". In this plot, the years of all varieties involved in the path are indicated on the horizontal axis, while the vertical axis has no meaning other than to simply to display the labels evenly spaced vertically. 
 
 Although a call to the \pkg{ggenealogy} function \texttt{getVariable()} indicates that ``Bedford" was developed in \Sexpr{getVariable("Bedford",sbGeneal,"devYear")} and ``Brim" in \Sexpr{getVariable("Brim",sbGeneal,"devYear")}, we quickly determine from the plot that ``Brim" is not a parent, grandparent, nor any great-grandparent of ``Bedford". Instead, we see that these two varieties are not related through a unidirectional parent-child lineage, but have a cousin-like relationship. The oldest common ancestor between ``Bedford" and ``Brim" is the variety ``Essex", which was developed in \Sexpr{getVariable("Essex",sbGeneal,"devYear")}.
 
@@ -404,16 +411,16 @@ plotPath(pathNT, sbGeneal, "devYear")
 
 \setkeys{Gin}{width=5in, height=5in}
 \begin{figure}[b!]
-\begin{center}
-<<label=plotPath2,fig=TRUE,echo=FALSE>>= 
+  \begin{center}
+<<label=plotPath2-1,echo=FALSE>>=
 <<plotPath2>>
 @
-\end{center}
+  \end{center}
 \caption{The shortest path between varieties ``Narow" and ``Tokyo" is strictly composed of a unidirectional sequence of parent-child relationships.}
-\label{fig:plotPath2}
+\label{fig:plotPath2-1}
 \end{figure}
 
-From the output, shown in Figure~\ref{fig:plotPath2}, we see that the variety ``Tokyo" is an ancestor of ``Narow" via four linear parent-child relationships.
+From the output, shown in Figure~\ref{fig:plotPath2-1}, we see that the variety ``Tokyo" is an ancestor of ``Narow" via four linear parent-child relationships.
 
 \subsection{Plotting shortest paths superimposed on full genealogical structure}
 
@@ -425,18 +432,18 @@ There is a function available in the \pkg{ggenealogy} package, \texttt{plotPathO
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 3)
 @
 
-\setkeys{Gin}{width=6in, height=6in}
+\setkeys{Gin}{width=5in, height=5in}
 \begin{figure}[t!]
-\begin{center}
-<<label=plotPathOnAll1,fig=TRUE,echo=FALSE>>= 
+  % \begin{center}
+<<label=plotPathOnAll1-1,echo=FALSE, warning=FALSE>>=
 <<plotPathOnAll1>>
-@ 
-\end{center}
+@
+  % \end{center}
 \caption{Plot of the shortest path, highlighted in green, between the varieties ``Tokyo" and ``Narow" superimposed on the full genealogical structure, using a \texttt{bin} size of 3.}
-\label{fig:plotPathOnAll1}
+\label{fig:plotPathOnAll1-1}
 \end{figure}
 
-The resulting plot is shown in Figure~\ref{fig:plotPathOnAll1}.
+The resulting plot is shown in Figure~\ref{fig:plotPathOnAll1-1}.
 
 While the first three explicit parameters to the function \texttt{plotPathOnAll()} have been introduced earlier, the fourth parameter (\texttt{bin}) requires some explanation. The motivation of the \texttt{plotPathOnAll()} function is to write variety text labels on a plot, with the center of each variety label constricted on the horizontal axis to its developmental year. As is the case for the plots before, the vertical axis has no specific meaning. Unfortunately, for large datasets, this motivation can be a difficult task because the text labels of the varieties can overlap if they are assigned a similar y coordinate, have a similar year (x coordinate), and have labels with large numbers of characters (width of x coordinate).
 
@@ -452,24 +459,24 @@ Using the plot, we immediately recognize that the path spans most of the years i
 
 However, this plot has significant empty spaces between the distinct bins, and almost all text labels are overlapping, causing decreased readability. To force variety text labels into these spaces, the user may consider choosing a larger number of bins. Hence, we next examine a \texttt{bin} size of six:
 
-<<label=plotPathOnAll2, include=FALSE>>=
+<<label=plotPathOnAll2, include=FALSE, warning=FALSE>>=
 plotPathOnAll(pathNT, sbGeneal, ig, "devYear", bin = 6) + ggplot2::xlab("Year")
 @
 
 \setkeys{Gin}{width=6in, height=6in}
 \begin{figure}[b!]
-  \begin{center} 
-<<label=plotPathOnAll2,fig=TRUE,echo=FALSE>>= 
+% \begin{center} 
+<<label=plotPathOnAll2-1,echo=FALSE, warning=FALSE>>=
 <<plotPathOnAll2>>
 @ 
-\end{center} 
+% \end{center} 
 \caption{Plot of the shortest path, highlighted in green, between the varieties ``Tokyo" and ``Narow" superimposed on the full genealogical structure, using a \texttt{bin} size of 6.}
-\label{fig:plotPathOnAll2}
+\label{fig:plotPathOnAll2-1}
 \end{figure}
 
-Figure~\ref{fig:plotPathOnAll2} shows that the \texttt{bin} size of six successfully mitigated text overlap compared to Figure~\ref{fig:plotPathOnAll1}, which had a \texttt{bin} size of three. Most of the remaining textual overlap is confined to the range of years (1950-1970) of which the most varieties had development years.
+Figure~\ref{fig:plotPathOnAll2-1} shows that the \texttt{bin} size of six successfully mitigated text overlap compared to Figure~\ref{fig:plotPathOnAll1-1}, which had a \texttt{bin} size of three. Most of the remaining textual overlap is confined to the range of years (1950-1970) of which the most varieties had development years.
 
-Notice from Figure ~\ref{fig:plotPathOnAll}, that the default horizontal axis label for the \texttt{plotPath()} method has a value of ``Date". Given that the ``Date" variable in this example dataset is on the timescale of years, we wanted to change the default value of the horizontal axis label to ``Year". We did this in the code above for Figure ~\ref{fig:plotPathOnAll2} by appending appended \texttt{ggplot2} syntax.
+Notice from Figure~\ref{fig:plotPathOnAll1-1}, that the default horizontal axis label for the \texttt{plotPath()} method has a value of ``Date". Given that the ``Date" variable in this example dataset is on the timescale of years, we wanted to change the default value of the horizontal axis label to ``Year". We did this in the code above for Figure~\ref{fig:plotPathOnAll2-1} by appending appended \texttt{ggplot2} syntax.
 
 \subsection{Plotting pairwise distance matrices between a set of vertices}
 
@@ -477,7 +484,7 @@ It may also be of interest to generate matrices where the cell colors indicate t
 
 Here, we plot a distance matrix for a set of 8 varieties, defining both the x- and y- axes titles as ``Soybean label", and the legend label as ``Degree". Syntax from the \texttt{ggplot2} package can be appended to tailor the output of the \texttt{plotDegMatrix()} function. In this case, we denote pairs with small degrees to be colored white, and pairs with large degrees to be colored dark green, using \texttt{scale\_fill\_continuous}:
 
-<<label=plotDegMatrix1, include=FALSE>>=
+<<label=plotDegMatrix1, include=FALSE, warning=FALSE>>=
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 p = plotDegMatrix(varieties, ig, sbGeneal)
 p + ggplot2::scale_fill_continuous(low = "white", high = "darkgreen") +
@@ -492,20 +499,20 @@ plotDegMatrix(varieties, sbIG, sbGeneal)
 \setkeys{Gin}{width=4.6in, height=4.6in}
 \begin{figure}[b!]
   \begin{center} 
-<<label=plotDegMatrix1,fig=TRUE,echo=FALSE>>= 
+<<label=plotDegMatrix1-1,echo=FALSE, warning=FALSE>>=
 <<plotDegMatrix1>>
 @ 
 \end{center}
 \captionsetup{skip=-15pt}
 \caption{Colored matrix plot showing the degrees of the shortest paths between all pair combinations from a set of eight varieties of interest.}
-\label{fig:plotDegMatrix1}
+\label{fig:plotDegMatrix1-1}
 \end{figure}
 
 \newpage
 
-Figure~\ref{fig:plotDegMatrix1} shows that the degree of the shortest path between varieties ``Bedford" and ``Zane" seems to be the largest in the dataset, which should be around \Sexpr{getDegree("Bedford", "Zane", ig, sbGeneal)}. We can verify this simply with:
+Figure~\ref{fig:plotDegMatrix1-1} shows that the degree of the shortest path between varieties ``Bedford" and ``Zane" seems to be the largest in the dataset, which should be around \Sexpr{getDegree("Bedford", "Zane", ig, sbGeneal)}. We can verify this simply with:
 
-<<>>=
+<<warning=FALSE>>=
 getDegree("Bedford", "Zane", ig, sbGeneal)
 @
 
@@ -513,23 +520,23 @@ Indeed, the degree of the shortest path between ``Bedford" and ``Zane" is \Sexpr
 
 In a similar function \texttt{plotYearMatrix()}, the difference in years between all pairwise combinations of vertices can be constructed and viewed:
 
-<<label=plotYearMatrix1, include=FALSE>>=
+<<label=plotYearMatrix1, include=FALSE, warning=FALSE>>=
 varieties=c("Brim", "Bedford", "Calland", "Narow", "Pella", "Tokyo", "Young", "Zane")
 plotDegMatrix(varieties, ig, sbGeneal)
 @
 
 \begin{figure}[htb]
 \centering
-  \begin{adjustbox}{width=5.4in,height=4.1in,clip,trim=0cm 1.5cm 0cm 1.5cm}
-<<label=plotYearMatrix1,fig=TRUE,echo=FALSE>>= 
+  %\begin{adjustbox}{width=5.4in,height=4.1in,clip,trim=0cm 1.5cm 0cm 1.5cm}
+<<label=plotYearMatrix1-1,echo=FALSE, warning=FALSE>>=
 <<plotYearMatrix1>>
 @ 
-\end{adjustbox}
+%\end{adjustbox}
 \caption{Colored matrix plot showing the year differences between all pair combinations from a set of eight varieties of interest.}
-\label{fig:plotYearMatrix1}
+\label{fig:plotYearMatrix1-1}
 \end{figure}
 
-Here, we did not change any defaults. As such, the resulting plot in Figure~\ref{fig:plotYearMatrix1} contains the default values of ``Variety" for the x-and y-axis labels, and ``Difference in dates" for the legend label. It also uses the default colors of dark blue for small year difference and light blue for large year difference.
+Here, we did not change any defaults. As such, the resulting plot in Figure~\ref{fig:plotYearMatrix1-1} contains the default values of ``Variety" for the x-and y-axis labels, and ``Difference in dates" for the legend label. It also uses the default colors of dark blue for small year difference and light blue for large year difference.
 
 Running this function on this particular set of eight vertices suggests that most combinations of varieties are only one or two decades apart in year introduction, with the exception of the ``Tokyo" variety, which appears to be separated from each of the other seven varieties by about six decades. This is not surprising, because we have seen throughout the tutorial that the ``Tokyo" variety is the oldest variety in the dataset.
 
@@ -543,7 +550,7 @@ dim(statGeneal)
 colnames(statGeneal)
 @
 
-As this example academic genealogy dataset is much larger than the example soybean dataset, we can begin by creating a plot of ancestors and descendants. The ability to plot ancestors and descendants by generation was demonstrated using the plant breeding genealogy in Figure \ref{fig:plotAncDes1} and \ref{fig:plotAncDes2}. As we believe this is the most novel plotting tool in the \pkg{ggenealogy} package, we will test it again here using the academic genealogy.
+As this example academic genealogy dataset is much larger than the example soybean dataset, we can begin by creating a plot of ancestors and descendants. The ability to plot ancestors and descendants by generation was demonstrated using the plant breeding genealogy in Figure \ref{fig:plotAncDes1-1} and \ref{fig:plotAncDes2-1}. As we believe this is the most novel plotting tool in the \pkg{ggenealogy} package, we will test it again here using the academic genealogy.
 
 We need to choose a central individual of interest in order to create this plot. Perhaps we can use the academic statistician in the dataset that has the largest number of ``descendants". To determine the name of this individual, below we use the \pkg{ggenealogy} function \code{getNode()} to create a vector \code{indVec} that contains the names of all individuals in the dataset. We then use the \pkg{dplyr} package to apply the \pkg{ggenealogy} function \code{getDescendants()} on each individual in the \code{indVec} vector. We set the parameter \code{gen} to a conservatively large value of 100 as this dataset is unlikely to have any individuals with more than 100 generations of ``descendants".
 
@@ -561,7 +568,7 @@ table(numDesc)
 which(numDesc == 159)
 @
 
-We can now visualize how these 159 ``descendants" are related to Sir David Cox by calling the \code{plotAncDes()} function of \pkg{ggenealogy}. As such, we create Figure \ref{fig:dCox} using the code below.
+We can now visualize how these 159 ``descendants" are related to Sir David Cox by calling the \code{plotAncDes()} function of \pkg{ggenealogy}. As such, we create Figure \ref{fig:dCox-1} using the code below.
 
 <<eval=FALSE>>=
 plotAncDes("David Cox", statGeneal, mAnc = 6, mDes = 6, vCol = "blue")
@@ -571,10 +578,10 @@ plotAncDes("David Cox", statGeneal, mAnc = 6, mDes = 6, vCol = "blue")
     \centering
     \includegraphics[width = 159mm, height = 220mm]{./dCox.png}
     \caption{The 159 academic statistician ``descendants" of Sir David Cox.}
-    \label{fig:dCox}
+    \label{fig:dCox-1}
 \end{figure}
 
-We see from Figure \ref{fig:dCox} that Sir David Cox had 42 ``children", many of them becoming notable statisticians themselves, such as Basilio Pereira, Valerie Isham, Gauss Cordeiro, Peter McCullagh, and Henry Wynn. Of his ``children", the one who produced the most ``children" of their own was Peter Bloomfield, who has 26 ``children" and 49 ``descendants". In total, Sir David Cox had five generations of academic statistics mentees in this dataset.
+We see from Figure \ref{fig:dCox-1} that Sir David Cox had 42 ``children", many of them becoming notable statisticians themselves, such as Basilio Pereira, Valerie Isham, Gauss Cordeiro, Peter McCullagh, and Henry Wynn. Of his ``children", the one who produced the most ``children" of their own was Peter Bloomfield, who has 26 ``children" and 49 ``descendants". In total, Sir David Cox had five generations of academic statistics mentees in this dataset.
 
 <<>>=
 length(getChild("Peter Bloomfield", statGeneal))
@@ -591,44 +598,44 @@ plotPath(pathCB, statGeneal, "gradYear", fontFace = 4) + ggplot2::theme(axis.tex
 @
 
 \begin{figure}
-\centering
+%\centering
   %\begin{adjustbox}{width=5.4in,height=4.1in,clip,trim=0cm 1.5cm 0cm 1.5cm}
-<<label=pathCB,fig=TRUE,echo=FALSE>>= 
+<<label=pathCB-1,echo=FALSE>>=
 <<pathCB>>
 @ 
   %\end{adjustbox}
 \caption{The shortest path between Sir David Cox and one of his fifth generation ``descendants", Petra Buzkova.}
-\label{fig:pathCB}
+\label{fig:pathCB-1}
 \end{figure}
 
-This code results in Figure \ref{fig:pathCB}. We see that the shortest path between Sir David Cox and Petra Buzkova is strictly composed of five unidirectional ``parent-child" relationships that span about 55 years. We see that the time difference between when an advisor and student earned their degrees is not consistent across this path: The three statisticians who earned their degrees earliest in this path span more than 30 years in degree acquisition, whereas the three statisticians who earned their degrees later in this path only span less than ten years in degree acquisition.
+This code results in Figure \ref{fig:pathCB-1}. We see that the shortest path between Sir David Cox and Petra Buzkova is strictly composed of five unidirectional ``parent-child" relationships that span about 55 years. We see that the time difference between when an advisor and student earned their degrees is not consistent across this path: The three statisticians who earned their degrees earliest in this path span more than 30 years in degree acquisition, whereas the three statisticians who earned their degrees later in this path only span less than ten years in degree acquisition.
 
-We also notice in Figure \ref{fig:pathCB} that Sir David Cox received his statistics degree in about 1950, and Petra Buzkova received her statistics degree in about 2005. This genealogy only contains historical information about obtained degrees, and does not project into the future. Hence, we can be assured that Petra Buzkova is one of the younger individuals in the dataset, at least in the sense that the youngest individual could only have received his or her degree ten years after Petra Buzkova. However, we cannot be assured that Sir David Cox is one of the oldest individuals in the dataset. As such, it would be informative to superimpose this path of interest onto the entire dataset, using the \code{plotPathOnAll()} function of the \pkg{ggenealogy} package, as we did for the soybean genealogy in Figures \ref{fig:plotPathOnAll1} and \ref{fig:plotPathOnAll2}.
+We also notice in Figure \ref{fig:pathCB-1} that Sir David Cox received his statistics degree in about 1950, and Petra Buzkova received her statistics degree in about 2005. This genealogy only contains historical information about obtained degrees, and does not project into the future. Hence, we can be assured that Petra Buzkova is one of the younger individuals in the dataset, at least in the sense that the youngest individual could only have received his or her degree ten years after Petra Buzkova. However, we cannot be assured that Sir David Cox is one of the oldest individuals in the dataset. As such, it would be informative to superimpose this path of interest onto the entire dataset, using the \code{plotPathOnAll()} function of the \pkg{ggenealogy} package, as we did for the soybean genealogy in Figures \ref{fig:plotPathOnAll1-1} and \ref{fig:plotPathOnAll2-1}.
 
-We can achieve this using the below code. After trial and error, we use a \code{bin} of size 200, and append \pkg{ggplot2} syntax to define suitable x-axis limits. The output of this process is illustrated in Figure \ref{fig:plotCBText}.
+We can achieve this using the below code. After trial and error, we use a \code{bin} of size 200, and append \pkg{ggplot2} syntax to define suitable x-axis limits. The output of this process is illustrated in Figure \ref{fig:plotCBText-1}.
 
-<<label=plotCBText, include=FALSE>>=
+<<label=plotCBText, include=FALSE, warning=FALSE, fig=TRUE>>=
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200) +
    ggplot2::theme(axis.text = ggplot2::element_text(size = 8), axis.title =
    ggplot2::element_text(size = 8)) + ggplot2::scale_x_continuous(expand = c(.1, .2))
 @
 
 \begin{figure}
-\centering
+%\centering
   %\begin{adjustbox}{width=5.4in,height=4.1in,clip,trim=0cm 1.5cm 0cm 1.5cm}
-<<label=plotCBText,fig=TRUE,echo=FALSE>>= 
+<<label=plotCBText-1,echo=FALSE, warning=FALSE, fig=TRUE>>=
 <<plotCBText>>
 @ 
   %\end{adjustbox}
 \caption{The shortest path between Sir David Cox and Petra Buzkova, superimposed over the data structure, using a bin size of 200.}
-\label{fig:plotCBText}
+\label{fig:plotCBText-1}
 \end{figure}
 
-We see from the resulting Figure \ref{fig:plotCBText} that almost all text labels for individuals who received their graduate-level statistics degrees between 1950 and 2015 are undecipherable. We also see that the year Sir David Cox acquired his statistics degree is somewhere in the later half of the variable date for this dataset, as the oldest dates for acquisition of statistics degrees in this dataset occur around 1860. However, the number of individuals who are documented as receiving their statistics degrees between 1860 and 1950 are few enough so that their text labels are somewhat readable.
+We see from the resulting Figure \ref{fig:plotCBText-1} that almost all text labels for individuals who received their graduate-level statistics degrees between 1950 and 2015 are undecipherable. We also see that the year Sir David Cox acquired his statistics degree is somewhere in the later half of the variable date for this dataset, as the oldest dates for acquisition of statistics degrees in this dataset occur around 1860. However, the number of individuals who are documented as receiving their statistics degrees between 1860 and 1950 are few enough so that their text labels are somewhat readable.
 
-The text labels are so numerous in Figure \ref{fig:plotCBText} that simply trying different values for the input parameter \code{bin} will not solve the text overlapping problem. Instead, one approach we can try is to reconstruct the plot using the same \pkg{ggenealogy} function \code{plotPathOnAll()}, only now specifying variables to render the size (2.5) and color (default of black) of the text for nodes that are on the path of interest to be more noticeable than the size (0.5) and color (dark gray) of the text for nodes that are not on the path of interest. Moreover, we can make the edges that are not on the path of interest to be represented in a less noticeable color (light gray) than the edges that are on the path of interest (default of dark green). The variable names and options for these aesthetics is further detailed in the help manual of the function. We provide one example code that alters the defaults of the text color and sizes of nodes and edges below, which results in Figure \ref{fig:plotCBNoText}.
+The text labels are so numerous in Figure \ref{fig:plotCBText-1} that simply trying different values for the input parameter \code{bin} will not solve the text overlapping problem. Instead, one approach we can try is to reconstruct the plot using the same \pkg{ggenealogy} function \code{plotPathOnAll()}, only now specifying variables to render the size (2.5) and color (default of black) of the text for nodes that are on the path of interest to be more noticeable than the size (0.5) and color (dark gray) of the text for nodes that are not on the path of interest. Moreover, we can make the edges that are not on the path of interest to be represented in a less noticeable color (light gray) than the edges that are on the path of interest (default of dark green). The variable names and options for these aesthetics is further detailed in the help manual of the function. We provide one example code that alters the defaults of the text color and sizes of nodes and edges below, which results in Figure \ref{fig:plotCBNoText-1}.
 
-<<label=plotCBNoText, include=FALSE>>=
+<<label=plotCBNoText, include=FALSE, warning=FALSE, fig=TRUE>>=
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
    pathNodeSize = 2.5, nodeCol = "darkgray", edgeCol = "lightgray") +
    ggplot2::theme(axis.text = ggplot2::element_text(size = 8), axis.title =
@@ -638,23 +645,37 @@ plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
 \begin{figure}
 \centering
   %\begin{adjustbox}{width=5.4in,height=4.1in,clip,trim=0cm 1.5cm 0cm 1.5cm}
-<<label=plotCBNoText,fig=TRUE,echo=FALSE>>= 
+<<label=plotCBNoText-1,echo=FALSE, warning=FALSE, fig=TRUE>>=
 <<plotCBNoText>>
 @ 
   %\end{adjustbox}
 \caption{The shortest path between Sir David Cox and Petra Buzkova, superimposed over the data structure, using a bin size of 200. Individuals on the shortest path are labeled in large and black text and connected by dark green edges; all other individuals are labeled in small and gray text and connected by light gray edges.}
-\label{fig:plotCBNoText}
+\label{fig:plotCBNoText-1}
 \end{figure}
 
-In Figure \ref{fig:plotCBNoText}, we can now see each individual on the path of interest, and how their values for the variable date are overlaid on the entire genealogy structure. We can also more clearly see that, even though only ten years span between the youngest individual in the genealogy and Petra Buzkova, there are many individuals in that last decade. Indeed, the decade from 2005 to 2015 appears to be the densest in this dataset in terms of acquisition of statistics degrees.
+In Figure \ref{fig:plotCBNoText-1}, we can now see each individual on the path of interest, and how their values for the variable date are overlaid on the entire genealogy structure. We can also more clearly see that, even though only ten years span between the youngest individual in the genealogy and Petra Buzkova, there are many individuals in that last decade. Indeed, the decade from 2005 to 2015 appears to be the densest in this dataset in terms of acquisition of statistics degrees.
 
-We could still improve upon Figure \ref{fig:plotCBNoText}. Even though we may be primarily interested in understanding how the path of interest is overlaid across the entire genealogical structure, we could, upon viewing the entire structure, also develop an interest in nodes that are not on the path of interest but are revealed to stand out among the rest of the genealogical structure. For instance, in Figure \ref{fig:plotCBNoText}, it may be of interest for us to determine the names of the few individuals who obtained their statistics degrees before 1900. Fortunately, within the \code{plotPathOnAll()} function, there is a variable \code{animate} that we can set to a value of TRUE to create an interactive version of the figure that allows us to hover over individual illegible labels and immediately receive their labels in a readable format. This interactive functionality comes from methods in the \pkg{plotly} package. The code below would create an animated version of Figure \ref{fig:plotCBNoText}.
+We could still improve upon Figure \ref{fig:plotCBNoText-1}. Even though we may be primarily interested in understanding how the path of interest is overlaid across the entire genealogical structure, we could, upon viewing the entire structure, also develop an interest in nodes that are not on the path of interest but are revealed to stand out among the rest of the genealogical structure. For instance, in Figure \ref{fig:plotCBNoText-1}, it may be of interest for us to determine the names of the few individuals who obtained their statistics degrees before 1900. Fortunately, within the \code{plotPathOnAll()} function, there is a variable \code{animate} that we can set to a value of TRUE to create an interactive version of the figure that allows us to hover over individual illegible labels and immediately receive their labels in a readable format. This interactive functionality comes from methods in the \pkg{plotly} package. The code below would create an animated version of Figure \ref{fig:plotCBNoText-1}.
 
-<<label=plotAnimate, include=FALSE, eval=FALSE>>=
+<<label=plotAnimate, include=FALSE, eval=FALSE, warning=FALSE, fig=TRUE>>=
 plotPathOnAll(pathCB, statGeneal, statIG, "gradYear", bin = 200, nodeSize = .5,
    pathNodeSize = 2.5, nodeCol = "darkgray", edgeCol = "lightgray", animate =
    TRUE)
 @
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Branch parsing and calculations}
 
@@ -727,10 +748,8 @@ sum(DCChild$school == "University of London")
 
 The examples above demonstrate that users can quickly and flexibly parse descendant branches. The swiftness comes from \pkg{ggenealogy} functions that allow for fast parent-child traversals, such as \code{getChild()}, \code{getDescendants()}, \code{getBranchQuant()}, and \code{getBranchQual()}. The flexibility comes from data frame manipulation functions in base R that can be used in conjunction with the parent-child traversal methods.
 
-\section{Conclusions}
+\section{Bug reports and feature requests}
 
-The \pkg{ggenealogy} package offers various plotting tools that can assist those studying genealogical lineages in the data exploration phases. As each plot comes with its advantages and disadvantages, we recommend for users to explore several of the available visualization tools.
-
-This vignette briefly introduced some of the capabilities of the \pkg{ggenealogy} package. Inevitably, new approaches will necessitate new features in subsequent versions and might reveal unforeseen bugs. Please send comments, suggestions, questions, and bug reports to \texttt{lindsayannerutter@gmail.com}.
+Please post questions, feature requests, and bug reports under the Issues tab on GitHub at \url{https://github.com/lindsayrutter/ggenealogy}.
 
 \end{document}
